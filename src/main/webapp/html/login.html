@@ -11,26 +11,51 @@
     <title>嘿设汇-后台统计</title>
 
     <!--  CSS -->
-    <link href="static/css/style.css?v=1.0.0" rel="stylesheet">
+    <link href="../static/css/style.css?v=1.0.0" rel="stylesheet">
 
 </head>
 
-<body>
-
-     <div class="container">
-
-      <form class="form-signin" action="login" method="post">
-        <h2 class="form-signin-heading">登录<small>嘿设汇-后台统计</small></h2>
-        <label for="username" class="sr-only">账号</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-        <label for="password" class="sr-only">密码</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-        <p>${error}</p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
-      </form>
-
-    </div> <!-- /container -->
-
+<body id="login">
+    <div class="warpper">
+        <div class="container">
+            <div class="login-warpper">
+                <hgroup class="brand-logo">
+                    <h1>嘿设汇</h1>
+                </hgroup>
+                <form class="form-signin" action="login" method="post">
+                    <div class="login-box">           
+                        <div id="clearspan" class="form-group">
+                            <label for="username" class="sr-only">账号</label>
+                            <div class="input-group ">
+                                <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="clearpass" class="form-group">
+                            <label for="password" class="sr-only">密码</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                <div class="inputer">
+                                    <div class="input-wrapper">
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">确定</button>
+                    </div>
+                    <p>${error}</p>
+                </form>
+                <div class="login-footer">Copyright©2015-2016 www.hisihi.com All Rights Reserved. 武汉迅牛科技有限公司</div>
+            </div>
+        </div> <!-- /container -->
+    </div>
+    <div class="warpper-bg">
+    </div>
     <!-- jQuery -->
      <script src="../static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
 
