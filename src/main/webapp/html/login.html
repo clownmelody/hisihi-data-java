@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>嘿设汇-后台统计</title>
+
+    <!--  CSS -->
+    <link href="static/css/style.css?v=1.0.0" rel="stylesheet">
+
+</head>
+
+<body>
+
+     <div class="container">
+
+      <form class="form-signin" action="login" method="post">
+        <h2 class="form-signin-heading">登录<small>嘿设汇-后台统计</small></h2>
+        <label for="username" class="sr-only">账号</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="password" class="sr-only">密码</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <p>${error}</p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+      </form>
+
+    </div> <!-- /container -->
+
+    <!-- jQuery -->
+     <script src="../static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
+
+     <!-- Bootstrap Core JavaScript -->
+     <script src="static/js/bootstrap.min.js?v=3.3.4"></script>
+
+     <!-- Morris Charts JavaScript -->
+     <script src="static/js/plugins/morris/raphael.min.js?v=0.5.0"></script>
+     <script src="static/js/plugins/morris/morris.min.js?v=0.5.0"></script>
+     <script src="static/js/plugins/morris/morris-data.js?v=0.5.0"></script>
+
+</body>
+
+</html>

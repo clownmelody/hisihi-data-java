@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+    http://www.springframework.org/schema/jee
+    http://www.springframework.org/schema/jee/spring-jee-2.5.xsd"
+	default-autowire="byName">
+	
+	<!-- Spring2.5的写法，还有Spring3的写法 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/database.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 定义dataSource -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${data.db.driver}"/>
+		<property name="jdbcUrl" value="${data.db.url}"/>
+		<property name="user" value="${data.db.user}"/>
+		<property name="password" value="${data.db.password}"/>
+        <!--连接池中保留的最小连接数。-->
+        <property name="minPoolSize" value="10" />
+        <!--连接池中保留的最大连接数。Default: 15 -->
+        <property name="maxPoolSize" value="100" />
+        <!--最大空闲时间,1800秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="1800" />
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement" value="3" />
+        <property name="maxStatements" value="1000" />
+        <property name="initialPoolSize" value="10" />
+        <!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+        <property name="idleConnectionTestPeriod" value="60" />
+        <!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+        <property name="acquireRetryAttempts" value="30" />
+        <property name="breakAfterAcquireFailure" value="true" />
+    	<!-- trace为true，记录数据库每一步操作 -->
+    	<!--<property name="trace" value="true"></property>-->
+	</bean>
+
+	<bean id="jdbcTemplate"
+		  class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+	<!-- 定义dataSource -->
+	<bean id="appDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+		<property name="driverClass" value="${app.db.driver}"/>
+		<property name="jdbcUrl" value="${app.db.url}"/>
+		<property name="user" value="${app.db.user}"/>
+		<property name="password" value="${app.db.password}"/>
+        <!--连接池中保留的最小连接数。-->
+        <property name="minPoolSize" value="10" />
+        <!--连接池中保留的最大连接数。Default: 15 -->
+        <property name="maxPoolSize" value="100" />
+        <!--最大空闲时间,1800秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="1800" />
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement" value="3" />
+        <property name="maxStatements" value="1000" />
+        <property name="initialPoolSize" value="10" />
+        <!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+        <property name="idleConnectionTestPeriod" value="60" />
+        <!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+        <property name="acquireRetryAttempts" value="30" />
+        <property name="breakAfterAcquireFailure" value="true" />
+	</bean>
+
+	<bean id="appJdbcTemplate"
+		  class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="appDataSource" />
+		</property>
+	</bean>
+	
+	 <!-- 定义sessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" /> 
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.hbm2ddl.auto=update
+                hibernate.show_sql=true
+                hibernate.format_sql=false
+          </value>
+        </property>
+    </bean>
+    
+     <!-- 定义事务管理器：此处的含义就是下面的事务管理器管理由sessionFactory创建的session -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    
+     <tx:advice id="txAdvice" transaction-manager="transactionManager">
+	            <tx:attributes>
+	                   <tx:method name="save*" propagation="REQUIRED"  isolation="READ_COMMITTED"   />
+	                   <tx:method name="*" read-only="true" propagation="REQUIRED" />
+	            </tx:attributes>
+	     </tx:advice>
+	      
+	     <aop:config proxy-target-class="true">
+	           <aop:pointcut expression="execution(* com.hisihi.*.addoneadmin(..))" id="my"/>
+	           <aop:advisor advice-ref="txAdvice"  pointcut-ref="my"/>
+	     </aop:config>
+    
+     <!-- 使用annotation定义事务 -->  
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />   
+    
+	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+	<context:component-scan base-package="com.hisihi" />
+	<!-- Spring3中，如果该包里面的某个类上添加有相应的注解，则会将该对象作为bean注册到Ioc当中 -->
+	 
+	 <bean id="multipartResolver"  
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+		<property name="defaultEncoding" value="UTF-8" />
+        <!-- 设置上传文件的最大尺寸为1000M -->  
+    	<property name="maxUploadSize">  
+        	<value>1048576000</value> 
+    	</property>  
+	</bean> 
+</beans>
