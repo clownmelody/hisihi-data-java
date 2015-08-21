@@ -1,6 +1,7 @@
 package com.hisihi.utils;
 
 import com.google.gson.Gson;
+import com.sun.javafx.binding.StringFormatter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,17 +13,17 @@ public class UMClient {
     private final String url = "http://api.umeng.com";
     private final String email = "523453004@qq.com";
     private final String password = "heishehui123...";
-    private final String authPath = "/authorize";  // ÈÏÖ¤½Ó¿Ú
-    private final String appListPath = "/apps";  // »ñÈ¡appÁÐ±í
-    private final String appCountPath = "/apps/count";  // »ñÈ¡appÊýÁ¿
-    private final String appBaseDataPath = "/apps/base_data";  // »ñÈ¡apps»ù±¾Êý¾Ý
-    private final String channelsPath = "/channels?appkey=";  // »ñÈ¡ËùÓÐÇþµÀºÍÊý¾Ý
-    private final String todayDataPath = "/today_data?appkey=";   // »ñÈ¡½ñÈÕÊý¾Ý
-    private final String yesterdayDataPath = "/yesterday_data?appkey=";  // »ñÈ¡×òÈÕÊý¾Ý
-    private final String newUserDataPath = "/new_users";  // »ñÈ¡ÐÂÔöÓÃ»§
-    private final String activeUserDataPath = "/active_users";  // »ñÈ¡»îÔ¾ÓÃ»§
-    private final String durationDataPath = "/durations";  // »ñÈ¡Ê¹ÓÃÊ±³¤
-    private final String retentionDataPath = "/retentions";  // »ñÈ¡Áô´æÓÃ»§
+    private final String authPath = "/authorize";  // ï¿½ï¿½Ö¤ï¿½Ó¿ï¿½
+    private final String appListPath = "/apps";  // ï¿½ï¿½È¡appï¿½Ð±ï¿½
+    private final String appCountPath = "/apps/count";  // ï¿½ï¿½È¡appï¿½ï¿½ï¿½ï¿½
+    private final String appBaseDataPath = "/apps/base_data";  // ï¿½ï¿½È¡appsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private final String channelsPath = "/channels?appkey=";  // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private final String todayDataPath = "/today_data?appkey=";   // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private final String yesterdayDataPath = "/yesterday_data?appkey=";  // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private final String newUserDataPath = "/new_users";  // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
+    private final String activeUserDataPath = "/active_users";  // ï¿½ï¿½È¡ï¿½ï¿½Ô¾ï¿½Ã»ï¿½
+    private final String durationDataPath = "/durations";  // ï¿½ï¿½È¡Ê¹ï¿½ï¿½Ê±ï¿½ï¿½
+    private final String retentionDataPath = "/retentions";  // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
     private Gson gson = new Gson();
 
     public String getAuthorize(){
@@ -84,9 +85,62 @@ public class UMClient {
         return data;
     }
 
-    public static void main(String[] args){
+    public String getActiveUser(String appkey, String start_date, String end_date, String period_type){
+        String data = null;
+        String auth = this.getAuthorize();
+        HttpResponseWrapper result = null;
+        try {
+            String args = String.format("?auth_token=%s&appkey=%s&start_date=%s&end_date=%s&period=%s",
+                    auth, appkey, start_date, end_date, period_type);
+            String url = this.url+this.activeUserDataPath+args;
+            result = HttpClient.doGet(url);
+            data = result.content;
+        } catch (java.lang.Exception e1) {
+            e1.printStackTrace();
+        }
+        return data;
+    }
+
+    public String getRetainUser(String appkey, String start_date, String end_date, String period_type){
+        String data = null;
+        String auth = this.getAuthorize();
+        HttpResponseWrapper result = null;
+        try {
+            String args = String.format("?auth_token=%s&appkey=%s&start_date=%s&end_date=%s&period=%s",
+                    auth, appkey, start_date, end_date, period_type);
+            String url = this.url+this.retentionDataPath+args;
+            result = HttpClient.doGet(url);
+            data = result.content;
+        } catch (java.lang.Exception e1) {
+            e1.printStackTrace();
+        }
+        return data;
+    }
+
+    public String getActiveUserData(){
+        String anroid_appkey = Config.getConfig().getProperty("android_appkey");
+        String ios_appkey = Config.getConfig().getProperty("ios_appkey");
+        System.out.println("a: "+this.getActiveUser(anroid_appkey, "2015-08-10", "2015-08-15", "daily"));
+        System.out.println("i: " + this.getActiveUser(ios_appkey, "2015-08-10", "2015-08-15", "daily"));
+        return "";
+    }
+
+    public String getRetainUserData(){
+        String anroid_appkey = Config.getConfig().getProperty("android_appkey");
+        String ios_appkey = Config.getConfig().getProperty("ios_appkey");
+        System.out.println("a: "+this.getRetainUser(anroid_appkey, "2015-08-10", "2015-08-15", "weekly"));
+        System.out.println("i: "+this.getRetainUser(ios_appkey, "2015-08-10", "2015-08-15", "daily"));
+        return "";
+    }
+
+
+
+    public static void main(String[] args) {
         UMClient client = new UMClient();
-        System.out.println(client.getAppsBaseData());
+//        System.out.println(client.getAppsBaseData());
+//        System.out.println(client.getAppsList());
+//        client.getActiveUserData();
+        client.getRetainUserData();
     }
 
 }

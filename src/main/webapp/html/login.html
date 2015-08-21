@@ -11,7 +11,7 @@
     <title>嘿设汇-后台统计</title>
 
     <!--  CSS -->
-    <link href="../static/css/style.css?v=1.0.0" rel="stylesheet">
+    <link href="static/css/style.css?v=1.0.0" rel="stylesheet">
 
 </head>
 
@@ -30,7 +30,7 @@
                                 <span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
                                 <div class="inputer">
                                     <div class="input-wrapper">
-                                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required autofocus>
                                     </div>
                                 </div>
                             </div>
@@ -41,23 +41,23 @@
                                 <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                 <div class="inputer">
                                     <div class="input-wrapper">
-                                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <button class="btn btn-primary btn-block" type="submit">确定</button>
                     </div>
-                    <p>${error}</p>
                 </form>
-                <div class="login-footer">Copyright©2015-2016 www.hisihi.com All Rights Reserved. 武汉迅牛科技有限公司</div>
+                <div class="login-error">${error}</div>
+                <div class="login-footer">【公告】该系统为内部系统，若无账号请联系管理员开通！</div>
             </div>
         </div> <!-- /container -->
     </div>
     <div class="warpper-bg">
     </div>
     <!-- jQuery -->
-     <script src="../static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
+     <script src="static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
 
      <!-- Bootstrap Core JavaScript -->
      <script src="static/js/bootstrap.min.js?v=3.3.4"></script>
