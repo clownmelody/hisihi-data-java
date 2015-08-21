@@ -2,60 +2,38 @@
 
 $(function() {
 
-    // Area Chart
+    // 活跃留存用户图表
     Morris.Area({
-        element: 'morris-area-chart',
+        element: 'active-retain-chart',
         data: [{
-            week: '2014-01',
-            wactive: 451,
-            wretained: 1500
+            day: '2015-08-10',
+            android_active: 451,
+            android_retained: 452,
+            ios_active: 650,
+            ios_retained: 1000
         }, {
-            week: '2014-02',
-            wactive: 516,
-            wretained: 1780
+            day: '2015-08-13',
+            android_active: 351,
+            android_retained: 552,
+            ios_active: 650,
+            ios_retained: 900
         }, {
-            week: '2014-03',
-            wactive: 570,
-            wretained: 1400
-        }, {
-            week: '2014-04',
-            wactive: 660,
-            wretained: 1890
-        }, {
-            week: '2014-05',
-            wactive: 780,
-            wretained: 2400
-        }, {
-            week: '2014-06',
-            wactive: 546,
-            wretained: 2200
-        }, {
-            week: '2014-07',
-            wactive: 435,
-            wretained: 1786
-        }, {
-            week: '2014-08',
-            wactive: 780,
-            wretained: 2350
-        }, {
-            week: '2014-09',
-            wactive: 434,
-            wretained: 2650
-        }, {
-            week: '2014-10',
-            wactive: 681,
-            wretained: 3201
+            day: '2015-08-20',
+            android_active: 51,
+            android_retained: 252,
+            ios_active: 350,
+            ios_retained: 400
         }],
-        xkey: 'week',
-        ykeys: ['wactive', 'wretained'],
-        labels: ['月活跃用户数', '周活跃用户数'],
-        pointSize: 2,
+        xkey: 'day',
+        ykeys: ['android_active', 'android_retained', 'ios_active', 'ios_retained'],
+        labels: ['android活跃用户数', 'android留存用户数', 'ios活跃用户数', 'ios留存用户数'],
+        pointSize: 4,
         hideHover: 'auto',
         resize: true
     });
 
-    // Donut Chart
-    /*Morris.Donut({
+    // 设计师+讲师数量图表
+    t_s_count = Morris.Donut({
         element: 'student-teacher-count-chart',
         data: [{
             label: "设计师人数",
@@ -65,7 +43,7 @@ $(function() {
             value: 0
         }],
         resize: true
-    });*/
+    });
 
     // Line Chart
     Morris.Line({

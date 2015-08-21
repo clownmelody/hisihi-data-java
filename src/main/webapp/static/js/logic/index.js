@@ -7,7 +7,6 @@ $(document).ready(function(){
         type:'GET',
         dataType:'json',
         success:function(data) {
-            //data = JSON.parse(data);
             data = JSON.parse(data.data);
             $('#all_install_user').html(data.installations);
         },
@@ -45,17 +44,13 @@ $(document).ready(function(){
         type:'GET',
         dataType:'json',
         success:function(data) {
-            Morris.Donut({
-                element: 'student-teacher-count-chart',
-                data: [{
-                    label: "设计师人数",
-                    value: data.data.studentCount
-                }, {
-                    label: "设计讲师人数",
-                    value: data.data.teacherCount
-                }],
-                resize: true
-            });
+            t_s_count.setData([{
+                label: "设计师人数",
+                value: data.data.studentCount
+            }, {
+                label: "设计讲师人数",
+                value: data.data.teacherCount
+            }]);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             Morris.Donut({

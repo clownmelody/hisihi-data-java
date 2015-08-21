@@ -8680,10 +8680,6 @@ ul.alert-dropdown {
 a {
   text-decoration: none;
 }
-html,
-body {
-  height: 100%;
-}
 body {
   background-color: #f8f8f8;
   color: rgba(0, 0, 0, 0.87);
@@ -8811,6 +8807,13 @@ body {
   color: rgba(255, 255, 255, 0.54);
   font-size: 12px;
   padding: 10px 0;
+  text-align: center;
+}
+#login .login-warpper .login-error {
+  border-top: 0px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 12px;
+  padding: 0;
   text-align: center;
 }
 #login .login-warpper a {
