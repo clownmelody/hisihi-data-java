@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>嘿设汇-后台统计</title>
+
+    <!--  CSS -->
+    <link href="../static/css/style.css?v=1.0.0" rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">嘿设汇-后台统计</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">后台统计</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${name} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <!--<li>-->
+                            <!--<a href="#"><i class="fa fa-fw fa-user"></i> 用户中心</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="#"><i class="fa fa-fw fa-envelope"></i> 消息中心</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<a href="#"><i class="fa fa-fw fa-gear"></i> 设置</a>-->
+                        <!--</li>-->
+                        <!--<li class="divider"></li>-->
+                        <li>
+                            <a href="/logout"><i class="fa fa-fw fa-power-off"></i>退出</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="index.html"><i class="fa fa-home"></i> 首页</a>
+                    </li>
+                    <li class="active">
+                        <a href="retained.html"><i class="fa fa-fw fa-dashboard"></i> 留存用户</a>
+                    </li>
+                    <li>
+                        <a href="animate.html"><i class="fa fa-heart"></i> 活跃用户</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            嘿设汇 <small>后台统计</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>  <a href="index.html">首页</a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-dashboard"></i>  <a href="retained.html">留存用户</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="" class="form-inline form-list"  role="form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="dtp_input2" class=" control-label">选择日期:</label>
+                                    <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <input class="form-control" size="16" type="text" value="" readonly>
+                                        <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dtp_input2" class=" control-label">~</label>
+                                    <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <input class="form-control" size="16" type="text" value="" readonly>
+                                        <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
+                                        
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 留存用户
+                                    <ul class="list-inline list-link">
+                                        <li><a href="#" class="btn active">月</a></li>
+                                        <li><a href="#" class="btn">周</a></li>
+                                        <li><a href="#" class="btn">日</a></li>
+                                        <li><a href="#"><i class="fa fa-refresh"></i></a></li>
+                                    </ul>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div id="morris-area-chart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/js/bootstrap.min.js?v=3.3.4"></script>
+    <!-- datetimepicker http://www.bootcss.com/p/bootstrap-datetimepicker/index.htm -->
+    <script src="../static/js/datetimepicker/bootstrap-datetimepicker.min.js?v=2.0.0"></script>
+    <script type="text/javascript" src="../static/js/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js?v=2.0.0"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="../static/js/plugins/morris/raphael.min.js?v=0.5.0"></script>
+    <script src="../static/js/plugins/morris/morris.min.js?v=0.5.0"></script>
+    <script src="../static/js/plugins/morris/morris-data.js?v=0.5.0"></script>
+
+    <!-- logic -->
+    <script src="../static/js/logic/index.js?v=0.0.1"></script>
+
+    <script type="text/javascript">
+        $('.form_date').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+        $('.list-link li .btn').click(function(){
+          $('.list-link li .btn').removeClass('active');
+          $(this).addClass('active');
+        });
+    </script>
+
+</body>
+
+</html>
