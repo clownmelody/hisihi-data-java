@@ -8,6 +8,7 @@ $(document).ready(function(){
         dataType:'json',
         success:function(data) {
             data = JSON.parse(data.data);
+            console.log(data.installations);
             $('#all_install_user').html(data.installations);
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -64,6 +65,18 @@ $(document).ready(function(){
                 }],
                 resize: true
             });
+            alert('server exception');
+        }
+    });
+
+    $.ajax({
+        url:'questions_resolved_everyday',
+        type:'GET',
+        dataType:'json',
+        success:function(data) {
+            questions_resolved_line_chart.setData(data.data);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert('server exception');
         }
     });

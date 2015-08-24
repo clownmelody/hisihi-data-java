@@ -12,7 +12,7 @@
     <title>嘿设汇-后台统计</title>
 
     <!--  CSS -->
-    <link href="../static/css/style.css?v=1.0.0" rel="stylesheet">
+    <link href="static/css/style.css?v=1.0.0" rel="stylesheet">
 </head>
 
 <body>
@@ -36,16 +36,6 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${name} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <!--<li>-->
-                            <!--<a href="#"><i class="fa fa-fw fa-user"></i> 用户中心</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="#"><i class="fa fa-fw fa-envelope"></i> 消息中心</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                            <!--<a href="#"><i class="fa fa-fw fa-gear"></i> 设置</a>-->
-                        <!--</li>-->
-                        <!--<li class="divider"></li>-->
                         <li>
                             <a href="/logout"><i class="fa fa-fw fa-power-off"></i>退出</a>
                         </li>
@@ -62,7 +52,7 @@
                         <a href="retained.html"><i class="fa fa-fw fa-dashboard"></i> 留存用户</a>
                     </li>
                     <li>
-                        <a href="animate.html"><i class="fa fa-heart"></i> 活跃用户</a>
+                        <a href="active.html"><i class="fa fa-heart"></i> 活跃用户</a>
                     </li>
                 </ul>
             </div>
@@ -76,9 +66,6 @@
                 <!-- Page Heading -->
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">
-                            嘿设汇 <small>后台统计</small>
-                        </h1>
                         <ol class="breadcrumb">
                             <li>
                                 <i class="fa fa-home"></i>  <a href="index.html">首页</a>
@@ -126,15 +113,66 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 留存用户
                                     <ul class="list-inline list-link">
-                                        <li><a href="#" class="btn active">月</a></li>
+                                        <li><a href="#" class="btn active">日</a></li>
                                         <li><a href="#" class="btn">周</a></li>
-                                        <li><a href="#" class="btn">日</a></li>
+                                        <li><a href="#" class="btn">月</a></li>
                                         <li><a href="#"><i class="fa fa-refresh"></i></a></li>
                                     </ul>
                                 </h3>
                             </div>
-                            <div class="panel-body">
-                                <div id="morris-area-chart"></div>
+                            <div class="panel-body table-responsive" style="padding:0">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>首次使用时间</th>
+                                            <th>新增用户</th>
+                                            <th>留存率</th>
+                                        </tr>
+                                        <tr class="table-time">
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>$321.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>$321.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>1265</td>
+                                            <td>32.3%</td>
+                                            <td>$321.33</td>
+                                            <td>$321.33</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -151,23 +189,25 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="../static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
+    <script src="static/js/jquery-1.11.3.min.js?v=1.11.1"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="../static/js/bootstrap.min.js?v=3.3.4"></script>
+    <script src="static/js/bootstrap.min.js?v=3.3.4"></script>
     <!-- datetimepicker http://www.bootcss.com/p/bootstrap-datetimepicker/index.htm -->
-    <script src="../static/js/datetimepicker/bootstrap-datetimepicker.min.js?v=2.0.0"></script>
-    <script type="text/javascript" src="../static/js/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js?v=2.0.0"></script>
+    <script src="static/js/datetimepicker/bootstrap-datetimepicker.min.js?v=2.0.0"></script>
+    <script type="text/javascript" src="static/js/datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js?v=2.0.0"></script>
 
     <!-- Morris Charts JavaScript -->
-    <script src="../static/js/plugins/morris/raphael.min.js?v=0.5.0"></script>
-    <script src="../static/js/plugins/morris/morris.min.js?v=0.5.0"></script>
-    <script src="../static/js/plugins/morris/morris-data.js?v=0.5.0"></script>
+    <script src="static/js/plugins/morris/raphael.min.js?v=0.5.0"></script>
+    <script src="static/js/plugins/morris/morris.min.js?v=0.5.0"></script>
+    <script src="static/js/plugins/morris/morris-data.js?v=0.5.0"></script>
 
     <!-- logic -->
-    <script src="../static/js/logic/index.js?v=0.0.1"></script>
+    <script src="static/js/logic/index.js?v=0.0.1"></script>
 
     <script type="text/javascript">
+        
+
         $('.form_date').datetimepicker({
             language:  'zh-CN',
             weekStart: 1,
@@ -178,10 +218,42 @@
             minView: 2,
             forceParse: 0
         });
+
         $('.list-link li .btn').click(function(){
-          $('.list-link li .btn').removeClass('active');
-          $(this).addClass('active');
+            $('.list-link li .btn').removeClass('active');
+            $(this).addClass('active');
+            tableTime($(this).html());
         });
+       
+        $(window).load(function(){ 
+            tableTime($('.list-link li .active').html());
+        }); 
+
+        function tableTime(a) {
+            var tebleDay = [1,2,3,4,5,6,7,14,30];
+            var txt;
+            $('.table-time').html("<th></th><th></th>");
+            switch(a){
+                case '日':
+                    for (var i = 0; i < tebleDay.length; i++) {
+                        txt = "<th>"+tebleDay[i]+"天后</th>";
+                        $('.table-time').append(txt);
+                    };
+                    break;
+                case '周':
+                    for (var i = 1; i < 10; i++) {
+                        txt ="<th>"+i+"周后</th>";
+                        $('.table-time').append(txt);               
+                    };
+                    break;
+                case '月':
+                    for (var i = 1; i < 10; i++) {
+                        txt ="<th>"+i+"月后</th>"                        
+                        $('.table-time').append(txt);                    
+                    };
+                    break;
+            }
+        }
     </script>
 
 </body>

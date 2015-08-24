@@ -2,7 +2,9 @@ package com.hisihi.controller;
 
 import com.google.gson.Gson;
 import com.hisihi.dao.AppUserDao;
+import com.hisihi.dao.ForumDao;
 import com.hisihi.dao.HiworksDao;
+import com.hisihi.model.ResolvedQuestionBean;
 import com.hisihi.service.UserService;
 import com.hisihi.utils.StringUtils;
 import com.hisihi.utils.UMClient;
@@ -20,7 +22,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,6 +39,8 @@ public class HController {
     private AppUserDao appUserDao;
     @Autowired
     private HiworksDao hiworksDao;
+    @Autowired
+    private ForumDao forumDao;
 
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String main(){
@@ -65,8 +72,28 @@ public class HController {
         }
     }
 
+    @RequestMapping(value="/retained", method=RequestMethod.GET)
+    public String retained(HttpServletRequest request){
+        String name = (String) request.getSession().getAttribute("username");
+        if(!StringUtils.isEmpty(name)) {
+            return "retained";
+        } else {
+            return "login";
+        }
+    }
+
+    @RequestMapping(value="/active", method=RequestMethod.GET)
+    public String active(HttpServletRequest request){
+        String name = (String) request.getSession().getAttribute("username");
+        if(!StringUtils.isEmpty(name)) {
+            return "active";
+        } else {
+            return "login";
+        }
+    }
+
     @RequestMapping(value="/logout", method=RequestMethod.GET)
-    public String logout( HttpServletRequest request){
+    public String logout(HttpServletRequest request){
         request.getSession().removeAttribute("username");
         return "login";
     }
@@ -139,6 +166,32 @@ public class HController {
         Map data = new HashMap();
         data.put("teacherCount", teacherCount);
         data.put("studentCount", studentCount);
+        return this.successResponse(data);
+    }
+
+    @RequestMapping(value="/questions_resolved_everyday", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String questions_resolved_everyday(){
+        List list = forumDao.getEverydayPostCount();
+        return this.successResponse(list);
+    }
+
+    @RequestMapping(value="/user_active", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String user_active(HttpServletRequest request){
+        UMClient client = new UMClient();
+        String type = request.getParameter("type");
+        String start_date  = request.getParameter("start_date");
+        String end_date = request.getParameter("end_date");
+        if(start_date==null)
+            start_date = "2015-08-08";
+        if(end_date==null){
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            end_date = df.format(new Date());
+        }
+        if(type==null)
+            type = "daily";
+        List data = client.getActiveUserData(start_date, end_date, type);
         return this.successResponse(data);
     }
 

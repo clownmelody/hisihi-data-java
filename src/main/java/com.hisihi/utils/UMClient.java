@@ -1,9 +1,12 @@
 package com.hisihi.utils;
 
 import com.google.gson.Gson;
+import com.hisihi.model.ActiveUserModel;
 import com.sun.javafx.binding.StringFormatter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -117,30 +120,43 @@ public class UMClient {
         return data;
     }
 
-    public String getActiveUserData(){
+    public List getActiveUserData(String start_date, String end_date, String period_type){
+        List<Map> list = new ArrayList<Map>();
         String anroid_appkey = Config.getConfig().getProperty("android_appkey");
         String ios_appkey = Config.getConfig().getProperty("ios_appkey");
-        System.out.println("a: "+this.getActiveUser(anroid_appkey, "2015-08-10", "2015-08-15", "daily"));
-        System.out.println("i: " + this.getActiveUser(ios_appkey, "2015-08-10", "2015-08-15", "daily"));
-        return "";
+        Gson gson = new Gson();
+        ActiveUserModel activeUserModel = gson.fromJson(this.getActiveUser(anroid_appkey, start_date, end_date, period_type), ActiveUserModel.class);
+        int length = activeUserModel.getDates().size();
+        for(int i=0; i<length; i++){
+            Map map = new HashMap();
+            map.put("day", activeUserModel.getDates().get(i));
+            map.put("android_active", activeUserModel.getData().getAll().get(i));
+            list.add(map);
+        }
+        activeUserModel = gson.fromJson(this.getActiveUser(ios_appkey, start_date, end_date, period_type), ActiveUserModel.class);
+        int index = 0;
+        for (Map map: list){
+            map.put("ios_active", activeUserModel.getData().getAll().get(index));
+            index++;
+        }
+        return list;
     }
 
-    public String getRetainUserData(){
+    public String getRetainUserData(String start_date, String end_date, String period_type){
         String anroid_appkey = Config.getConfig().getProperty("android_appkey");
         String ios_appkey = Config.getConfig().getProperty("ios_appkey");
         System.out.println("a: "+this.getRetainUser(anroid_appkey, "2015-08-10", "2015-08-15", "weekly"));
-        System.out.println("i: "+this.getRetainUser(ios_appkey, "2015-08-10", "2015-08-15", "daily"));
+        System.out.println("i: "+this.getRetainUser(ios_appkey, "2015-08-06", "2015-08-15", "daily"));
         return "";
     }
-
 
 
     public static void main(String[] args) {
         UMClient client = new UMClient();
 //        System.out.println(client.getAppsBaseData());
 //        System.out.println(client.getAppsList());
-//        client.getActiveUserData();
-        client.getRetainUserData();
+//        System.out.print(new Gson().toJson(client.getActiveUserData(null, null, null)));
+        client.getRetainUserData(null, null, null);
     }
 
 }
