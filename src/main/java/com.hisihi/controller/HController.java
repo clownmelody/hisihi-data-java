@@ -47,14 +47,18 @@ public class HController {
 		return "login";
 	}
 
-    @RequestMapping(value="/hisihi", method=RequestMethod.GET)
-    public String hisihi(){
-        return "login";
-    }
-
-    @RequestMapping(value="/login", method=RequestMethod.GET)
-    public String login(){
-        return "login";
+    @RequestMapping(value="/login", method=RequestMethod.POST)
+    public String loginPost(Model model, HttpServletRequest request){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (userService.isUserCorrect(username, password)){
+            request.getSession().setAttribute("username", username);
+            return "redirect:/index";
+        }
+        else {
+            model.addAttribute("error", "user not exist or password is wrong");
+            return "login";
+        }
     }
 
 	@RequestMapping(value="/register", method=RequestMethod.GET)
@@ -97,20 +101,6 @@ public class HController {
         request.getSession().removeAttribute("username");
         return "login";
     }
-
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String loginPost(Model model, HttpServletRequest request){
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		if (userService.isUserCorrect(username, password)){
-            request.getSession().setAttribute("username", username);
-            return "redirect:/index";
-		}
-		else {
-			model.addAttribute("error", "user not exist or password is wrong");
-            return "login";
-		}
-	}
 
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String registerPost(Model model, HttpServletRequest request){
@@ -158,6 +148,15 @@ public class HController {
         return this.successResponse(data);
     }
 
+    @RequestMapping(value="/hiworks_view_count", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String hiworks_view_count(){
+        int count = hiworksDao.getTotalViewCount();
+        Map data = new HashMap();
+        data.put("count", count);
+        return this.successResponse(data);
+    }
+
     @RequestMapping(value="/student_teacher_count", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String student_teacher_count(){
@@ -183,15 +182,37 @@ public class HController {
         String type = request.getParameter("type");
         String start_date  = request.getParameter("start_date");
         String end_date = request.getParameter("end_date");
-        if(start_date==null)
+        if(StringUtils.isEmpty(start_date))
             start_date = "2015-08-08";
-        if(end_date==null){
+        if(StringUtils.isEmpty(end_date)){
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             end_date = df.format(new Date());
         }
-        if(type==null)
+        if(StringUtils.isEmpty(type))
             type = "daily";
         List data = client.getActiveUserData(start_date, end_date, type);
+        return this.successResponse(data);
+    }
+
+    @RequestMapping(value="/user_retained", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String user_retained(HttpServletRequest request){
+        UMClient client = new UMClient();
+        String type = request.getParameter("type");
+        String start_date  = request.getParameter("start_date");
+        String end_date = request.getParameter("end_date");
+        String device = request.getParameter("device");
+        if(StringUtils.isEmpty(start_date))
+            start_date = "2015-08-08";
+        if(StringUtils.isEmpty(end_date)){
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            end_date = df.format(new Date());
+        }
+        if(StringUtils.isEmpty(type))
+            type = "daily";
+        if(StringUtils.isEmpty(device))
+            device = "Android";
+        String data = client.getRetainUserData(start_date, end_date, type, device);
         return this.successResponse(data);
     }
 

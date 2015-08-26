@@ -18,7 +18,7 @@ public class ForumDao {
 
 	public List getEverydayPostCount() {
 		ResolvedQuestionBean model = new ResolvedQuestionBean();
-		List list =  appJdbcTemplate.queryForList("select count(*) as count, FROM_UNIXTIME(create_time, '%Y%m%d') as date from hisihi_forum_post group by FROM_UNIXTIME(create_time, '%Y%m%d' )");
+		List list =  appJdbcTemplate.queryForList("select count(*) as count, FROM_UNIXTIME(create_time, '%Y-%m-%d') as date from hisihi_forum_post group by FROM_UNIXTIME(create_time, '%Y%m%d' )");
 		return list;
 	}
 

@@ -30,7 +30,7 @@ $(function() {
     });
 
     // K 因子
-    k_bar_chart = Morris.Bar({
+    /*k_bar_chart = Morris.Bar({
         element: 'k-bar-chart',
         data: [{
             device: '',
@@ -43,7 +43,7 @@ $(function() {
         xLabelAngle: 35,
         hideHover: 'auto',
         resize: true
-    });
+    });*/
 
 
 });

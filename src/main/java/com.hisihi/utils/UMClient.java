@@ -142,12 +142,16 @@ public class UMClient {
         return list;
     }
 
-    public String getRetainUserData(String start_date, String end_date, String period_type){
+    public String getRetainUserData(String start_date, String end_date, String period_type, String device){
         String anroid_appkey = Config.getConfig().getProperty("android_appkey");
         String ios_appkey = Config.getConfig().getProperty("ios_appkey");
-        System.out.println("a: "+this.getRetainUser(anroid_appkey, "2015-08-10", "2015-08-15", "weekly"));
-        System.out.println("i: "+this.getRetainUser(ios_appkey, "2015-08-06", "2015-08-15", "daily"));
-        return "";
+        String result = null;
+        if("Android".equals(device)){
+            result = this.getRetainUser(anroid_appkey, start_date, end_date, period_type);
+        } else {
+            result = this.getRetainUser(ios_appkey, start_date, end_date, period_type);
+        }
+        return result;
     }
 
 
@@ -156,7 +160,7 @@ public class UMClient {
 //        System.out.println(client.getAppsBaseData());
 //        System.out.println(client.getAppsList());
 //        System.out.print(new Gson().toJson(client.getActiveUserData(null, null, null)));
-        client.getRetainUserData(null, null, null);
+        client.getRetainUserData("2015-08-08", "2015-08-23", "daily", "android");
     }
 
 }

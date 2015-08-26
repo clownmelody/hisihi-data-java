@@ -48,7 +48,7 @@
                         <!--</li>-->
                         <!--<li class="divider"></li>-->
                         <li>
-                            <a href="/logout"><i class="fa fa-fw fa-power-off"></i>退出</a>
+                            <a href="logout"><i class="fa fa-fw fa-power-off"></i>退出</a>
                         </li>
                     </ul>
                 </li>
@@ -97,7 +97,7 @@
                                     <label for="dtp_input2" class=" control-label">选择日期:</label>
                                     <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input id="start_date" class="form-control" size="16" type="text" value="" readonly>
+                                        <input id="start_date" style="cursor: pointer;" class="form-control" size="16" type="text" value="2015-08-08" readonly>
                                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
                                         
                                     </div>
@@ -106,7 +106,7 @@
                                     <label for="dtp_input2" class=" control-label">~</label>
                                     <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input id="end_date" class="form-control" size="16" type="text" value="" readonly>
+                                        <input id="end_date" style="cursor: pointer;" class="form-control" size="16" type="text" value="" readonly>
                                         <!-- <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span> -->
                                         
                                     </div>
@@ -172,6 +172,20 @@
             minView: 2,
             forceParse: 0
         });
+
+        var myDate = new Date();
+        var year = myDate.getFullYear();
+        var month = myDate.getMonth()+1;
+        if(month<10){
+            month = "0"+month;
+        }
+        var day = myDate.getDate();
+        if(day<10){
+            day = "0"+day;
+        }
+        var end_date = year+"-"+month+"-"+day;
+        $('#end_date').val(end_date);
+
         $('.list-link li .btn').click(function(){
             $('.list-link li .btn').removeClass('active');
             $(this).addClass('active');

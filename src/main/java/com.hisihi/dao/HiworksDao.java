@@ -17,4 +17,9 @@ public class HiworksDao {
 		return count;
 	}
 
+	public int getTotalViewCount(){
+		int count = appJdbcTemplate.queryForInt("select sum(view) from hisihi_document_download, hisihi_document where hisihi_document_download.id=hisihi_document.id");
+		return count;
+	}
+
 }

@@ -1,5 +1,5 @@
 /**
-* 获取统计数据
+* 获取活跃用户数统计数据
 **/
 
 function updateUserActiveData(start_date, end_date, type){
