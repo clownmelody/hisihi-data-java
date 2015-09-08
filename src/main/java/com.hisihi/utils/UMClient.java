@@ -154,7 +154,6 @@ public class UMClient {
         return result;
     }
 
-
     public static void main(String[] args) {
         UMClient client = new UMClient();
 //        System.out.println(client.getAppsBaseData());
