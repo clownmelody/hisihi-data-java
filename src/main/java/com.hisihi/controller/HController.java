@@ -42,7 +42,7 @@ public class HController {
     @Autowired
     private ForumDao forumDao;
 
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@RequestMapping(value="/", method={RequestMethod.GET, RequestMethod.POST})
 	public String main(){
 		return "login";
 	}

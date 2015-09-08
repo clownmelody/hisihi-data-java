@@ -62,7 +62,7 @@
         <property name="exposeRequestAttributes" value="true" />
         <property name="exposeSessionAttributes" value="true" />
         <property name="order" value="1"/>
-    </bean> 
+    </bean>
     
    <!-- 配置action中返回的视图配置 -->
     <!--  <bean id="viewResolverMvc" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
