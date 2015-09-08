@@ -1,6 +1,7 @@
 package com.hisihi.controller;
 
 import com.google.gson.Gson;
+import com.hisihi.dao.AdDao;
 import com.hisihi.dao.AppUserDao;
 import com.hisihi.dao.ForumDao;
 import com.hisihi.dao.HiworksDao;
@@ -22,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,6 +44,9 @@ public class HController {
     private HiworksDao hiworksDao;
     @Autowired
     private ForumDao forumDao;
+
+    @Autowired
+    private AdDao adDao;
 
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String main(){
@@ -214,6 +220,30 @@ public class HController {
             device = "Android";
         String data = client.getRetainUserData(start_date, end_date, type, device);
         return this.successResponse(data);
+    }
+
+    @RequestMapping(value="/adclick", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String adclick(HttpServletRequest request){
+
+        String appid = request.getParameter("appid");
+        String channel  = request.getParameter("channel");
+        String mac = request.getParameter("mac");
+        String idfa = request.getParameter("idfa");
+        String callback = URLDecoder.decode(request.getParameter("callback"));
+
+        int count = adDao.saveAdInfo( appid,  channel,  mac,  idfa,  callback);
+        if(count > 0){
+            Map map = new HashMap();
+            map.put("success", true);
+            map.put("message", "Success");
+            return gson.toJson(map);
+        }else{
+            Map map = new HashMap();
+            map.put("success", false);
+            map.put("message", "Error");
+            return gson.toJson(map);
+        }
     }
 
     private String successResponse(Object data){
