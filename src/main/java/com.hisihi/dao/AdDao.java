@@ -19,12 +19,12 @@ public class AdDao {
     private JdbcTemplate jdbcTemplate;
 
     /**
-     * 保存趣米广告接入信息
-     * @param appid     推广的广告ID      由广告主指定
-     * @param channel   渠道方唯一标识     由广告主指定
-     * @param mac       设备MAC地址  渠道提供
-     * @param idfa      Idfa为源格式  渠道提供
-     * @param callback  渠道回调地址  渠道提供
+     * 淇濆瓨瓒ｇ背骞垮憡鎺ュ叆淇℃伅
+     * @param appid     鎺ㄥ箍鐨勫箍鍛奍D      鐢卞箍鍛婁富鎸囧畾
+     * @param channel   娓犻亾鏂瑰敮涓�鏍囪瘑     鐢卞箍鍛婁富鎸囧畾
+     * @param mac       璁惧MAC鍦板潃  娓犻亾鎻愪緵
+     * @param idfa      Idfa涓烘簮鏍煎紡  娓犻亾鎻愪緵
+     * @param callback  娓犻亾鍥炶皟鍦板潃  娓犻亾鎻愪緵
      * @return
      */
     public int saveAdInfo(String appid, String channel, String mac, String idfa,String callback){
