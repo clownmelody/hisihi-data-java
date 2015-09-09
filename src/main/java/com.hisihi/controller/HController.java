@@ -7,6 +7,8 @@ import com.hisihi.dao.ForumDao;
 import com.hisihi.dao.HiworksDao;
 import com.hisihi.model.ResolvedQuestionBean;
 import com.hisihi.service.UserService;
+import com.hisihi.utils.HttpClient;
+import com.hisihi.utils.HttpResponseWrapper;
 import com.hisihi.utils.StringUtils;
 import com.hisihi.utils.UMClient;
 import org.slf4j.Logger;
@@ -234,6 +236,7 @@ public class HController {
 
         int count = adDao.saveAdInfo( appid,  channel,  mac,  idfa,  callback);
         if(count > 0){
+            
             Map map = new HashMap();
             map.put("success", true);
             map.put("message", "Success");
@@ -244,6 +247,39 @@ public class HController {
             map.put("message", "Error");
             return gson.toJson(map);
         }
+    }
+
+    @RequestMapping(value="/registerIDFA", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String registerIDFA(HttpServletRequest request){
+        try {
+                String idfa = request.getParameter("idfa");
+                List list = adDao.getCallbackByIDFA(idfa);
+                if(list.size() > 0){
+                    Map cmap  = (Map) list.get(0);//取id值最小的
+                    String callback = cmap.get("callback").toString().trim();
+                    HttpResponseWrapper wrapper =  HttpClient.doGet(callback);
+                    String result = wrapper.content;
+                    Map rmap = gson.fromJson(result, Map.class);
+                    if(rmap.get("success").toString().trim().equals("true")){
+                        result = result.replace("\"true\"","true");
+                    }else {
+                        result = result.replace("\"false\"","false");
+                    }
+                    return result;
+                }else {
+                    Map map = new HashMap();
+                    map.put("success", false);
+                    map.put("message", "this idfa is not exist");
+                    return gson.toJson(map);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Map map = new HashMap();
+                map.put("success", false);
+                map.put("message", "callback request exception");
+                return gson.toJson(map);
+            }
     }
 
     private String successResponse(Object data){

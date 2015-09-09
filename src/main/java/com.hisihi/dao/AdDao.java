@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AdDao {
     private static Logger logger = LoggerFactory.getLogger(AdDao.class);
@@ -34,6 +36,16 @@ public class AdDao {
                 new Object[]{appid, channel,mac,idfa,callback},
                 new int[]{java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR}
         );
+    }
+
+    /**
+     * 获取callback链接
+     * @param idfa  Idfa为源格式  渠道提供
+     * @return
+     */
+    public List getCallbackByIDFA(String idfa){
+        List list = jdbcTemplate.queryForList("select callback from hisihi_data_qumi where idfa ='" + idfa + "' order by id asc");
+        return list;
     }
 
 }
