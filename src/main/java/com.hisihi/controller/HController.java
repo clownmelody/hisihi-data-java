@@ -7,6 +7,7 @@ import com.hisihi.dao.ForumDao;
 import com.hisihi.dao.HiworksDao;
 import com.hisihi.model.ResolvedQuestionBean;
 import com.hisihi.service.UserService;
+import com.hisihi.utils.HttpClient;
 import com.hisihi.utils.StringUtils;
 import com.hisihi.utils.UMClient;
 import org.slf4j.Logger;
@@ -234,6 +235,15 @@ public class HController {
 
         int count = adDao.saveAdInfo( appid,  channel,  mac,  idfa,  callback);
         if(count > 0){
+            try {
+                HttpClient.doGet(callback);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Map map = new HashMap();
+                map.put("success", false);
+                map.put("message", "callback request exception");
+                return gson.toJson(map);
+            }
             Map map = new HashMap();
             map.put("success", true);
             map.put("message", "Success");
