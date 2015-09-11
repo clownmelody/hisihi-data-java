@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Types;
 import java.util.List;
 
 @Repository
@@ -30,11 +31,11 @@ public class AdDao {
      * @return
      */
     public int saveAdInfo(String appid, String channel, String mac, String idfa,String callback){
-
+        int status = 0;
         return jdbcTemplate.update(
-                "insert into hisihi_data_qumi(appid, channel,mac,idfa,callback) values(?,?,?,?,?)",
-                new Object[]{appid, channel,mac,idfa,callback},
-                new int[]{java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR}
+                "insert into hisihi_data_qumi(appid, channel,mac,idfa,callback,status) values(?,?,?,?,?,?)",
+                new Object[]{appid, channel,mac,idfa,callback,status},
+                new int[]{java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR,java.sql.Types.VARCHAR, Types.INTEGER}
         );
     }
 
@@ -44,8 +45,21 @@ public class AdDao {
      * @return
      */
     public List getCallbackByIDFA(String idfa){
-        List list = jdbcTemplate.queryForList("select callback from hisihi_data_qumi where idfa ='" + idfa + "' order by id asc");
+        List list = jdbcTemplate.queryForList("select id, callback from hisihi_data_qumi where idfa ='" + idfa + "' order by id asc");
         return list;
     }
 
+    /**
+     * 若注册时找到了idfa则更新广告状态
+     * @param id
+     * @return
+     */
+    public int updateAdStatus(int id){
+        int status = 1;
+        return jdbcTemplate.update(
+                "update hisihi_data_qumi set status = ? where id = ?",
+                new Object[]{status,id},
+                new int[]{java.sql.Types.INTEGER, java.sql.Types.INTEGER}
+        );
+    }
 }

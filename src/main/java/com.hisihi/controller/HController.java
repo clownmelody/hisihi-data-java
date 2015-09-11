@@ -257,12 +257,14 @@ public class HController {
                 List list = adDao.getCallbackByIDFA(idfa);
                 if(list.size() > 0){
                     Map cmap  = (Map) list.get(0);//取id值最小的
+                    int id = Integer.parseInt(cmap.get("id").toString());
                     String callback = cmap.get("callback").toString().trim();
                     HttpResponseWrapper wrapper =  HttpClient.doGet(callback);
                     String result = wrapper.content;
                     Map rmap = gson.fromJson(result, Map.class);
                     if(rmap.get("success").toString().trim().equals("true")){
                         result = result.replace("\"true\"","true");
+                        adDao.updateAdStatus(id);//推送成功更新广告状态
                     }else {
                         result = result.replace("\"false\"","false");
                     }
