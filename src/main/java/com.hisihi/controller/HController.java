@@ -289,7 +289,7 @@ public class HController {
     public String recordChannel(HttpServletRequest request){
         try {
             String channel = request.getParameter("channel");
-            String iemi = request.getParameter("iemi");
+            String iemi = request.getParameter("imei");
             if(!adDao.isIEMIExist(iemi)) {
                 int count = adDao.recordChannel(channel, iemi);
                 if (count > 0) {

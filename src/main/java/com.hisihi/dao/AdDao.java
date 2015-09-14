@@ -70,29 +70,29 @@ public class AdDao {
     /**
      *记录渠道和设备iemi信息
      * @param channel
-     * @param iemi
+     * @param imei
      * @return
      */
-    public int recordChannel(String channel, String iemi){
+    public int recordChannel(String channel, String imei){
         Date dt = new Date();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String nowTime = "";
         nowTime = df.format(dt);
         Timestamp recordTime = Timestamp.valueOf(nowTime);
         return jdbcTemplate.update(
-                "insert into  hisihi_data_channel (channel, iemi, recordtime) values (?,?,?)",
-                new Object[]{channel,iemi,recordTime},
+                "insert into  hisihi_data_channel (channel, imei, recordtime) values (?,?,?)",
+                new Object[]{channel,imei,recordTime},
                 new int[]{Types.VARCHAR, Types.VARCHAR,Types.TIMESTAMP}
         );
     }
 
     /**
      * iemi设备是否已经存在
-     * @param iemi
+     * @param imei
      * @return
      */
-    public boolean isIEMIExist(String iemi){
-        int count = jdbcTemplate.queryForInt("select count(*) from hisihi_data_channel where iemi = '" + iemi + "'");
+    public boolean isIEMIExist(String imei){
+        int count = jdbcTemplate.queryForInt("select count(*) from hisihi_data_channel where imei = '" + imei + "'");
         if(count > 0) {
             return true;
         }else {
