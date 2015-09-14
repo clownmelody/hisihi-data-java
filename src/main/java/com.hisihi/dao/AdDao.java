@@ -11,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.sql.Types;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -61,5 +65,38 @@ public class AdDao {
                 new Object[]{status,id},
                 new int[]{java.sql.Types.INTEGER, java.sql.Types.INTEGER}
         );
+    }
+
+    /**
+     *记录渠道和设备iemi信息
+     * @param channel
+     * @param iemi
+     * @return
+     */
+    public int recordChannel(String channel, String iemi){
+        Date dt = new Date();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String nowTime = "";
+        nowTime = df.format(dt);
+        Timestamp recordTime = Timestamp.valueOf(nowTime);
+        return jdbcTemplate.update(
+                "insert into  hisihi_data_channel (channel, iemi, recordtime) values (?,?,?)",
+                new Object[]{channel,iemi,recordTime},
+                new int[]{Types.VARCHAR, Types.VARCHAR,Types.TIMESTAMP}
+        );
+    }
+
+    /**
+     * iemi设备是否已经存在
+     * @param iemi
+     * @return
+     */
+    public boolean isIEMIExist(String iemi){
+        int count = jdbcTemplate.queryForInt("select count(*) from hisihi_data_channel where iemi = '" + iemi + "'");
+        if(count > 0) {
+            return true;
+        }else {
+            return false;
+        }
     }
 }
