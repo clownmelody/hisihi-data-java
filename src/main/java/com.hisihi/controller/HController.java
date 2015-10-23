@@ -1,10 +1,7 @@
 package com.hisihi.controller;
 
 import com.google.gson.Gson;
-import com.hisihi.dao.AdDao;
-import com.hisihi.dao.AppUserDao;
-import com.hisihi.dao.ForumDao;
-import com.hisihi.dao.HiworksDao;
+import com.hisihi.dao.*;
 import com.hisihi.model.ResolvedQuestionBean;
 import com.hisihi.service.UserService;
 import com.hisihi.utils.HttpClient;
@@ -46,9 +43,10 @@ public class HController {
     private HiworksDao hiworksDao;
     @Autowired
     private ForumDao forumDao;
-
     @Autowired
     private AdDao adDao;
+    @Autowired
+    private AsoDao asoDao;
 
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String main(){
@@ -307,6 +305,74 @@ public class HController {
                 Map map = new HashMap();
                 map.put("success", true);
                 map.put("message", "Success");
+                return gson.toJson(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map map = new HashMap();
+            map.put("success", false);
+            map.put("message", "callback request exception");
+            return gson.toJson(map);
+        }
+    }
+
+    @RequestMapping(value="/aso_click", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String aso_click(HttpServletRequest request){
+        String appid = request.getParameter("appid");
+        String source  = request.getParameter("source");
+        String mac = request.getParameter("mac");
+        String idfa = request.getParameter("idfa");
+        String ip = request.getParameter("ip");
+        String callback = URLDecoder.decode(request.getParameter("callback"));
+
+        int count = asoDao.saveAsoInfo(appid, ip, mac, idfa, callback, source);
+        if(count > 0){
+            Map map = new HashMap();
+            map.put("success", true);
+            map.put("message", "ok");
+            map.put("code",200);
+            return gson.toJson(map);
+        }else{
+            return this.errorResponse(400,"false");
+        }
+    }
+
+    @RequestMapping(value="/is_idfa_download", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String is_idfa_download(HttpServletRequest request){
+        String appid = request.getParameter("appid");
+        String idfa = request.getParameter("idfa");
+
+        Map map = asoDao.isIDFADownload(appid, idfa);
+        return gson.toJson(map);
+    }
+
+    @RequestMapping(value="/register_aso_client", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String register_aso_client(HttpServletRequest request){
+        try {
+            String idfa = request.getParameter("idfa");
+            List list = asoDao.getCallbackByIDFA(idfa);
+            if(list.size() > 0){
+                Map cmap  = (Map) list.get(0);//取id值最小的
+                int id = Integer.parseInt(cmap.get("id").toString());
+                String callback = cmap.get("callback").toString().trim();
+                HttpResponseWrapper wrapper =  HttpClient.doGet(callback);
+                String result = wrapper.content;
+                Map rmap = gson.fromJson(result, Map.class);
+                if(rmap.get("message").toString().trim().equals("ok")){
+                    //result = result.replace("\"true\"","true");
+                    asoDao.updateAsoStatus(id);//推送成功更新aso状态
+                }
+//                else {
+//                    result = result.replace("\"false\"","false");
+//                }
+                return result;
+            }else {
+                Map map = new HashMap();
+                map.put("success", false);
+                map.put("message", "this idfa is not exist");
                 return gson.toJson(map);
             }
         } catch (Exception e) {
