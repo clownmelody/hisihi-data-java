@@ -13,17 +13,20 @@ public class AppUserDao {
 	private JdbcTemplate appJdbcTemplate;
 
 	public int getTotalCount() {
-		int count = appJdbcTemplate.queryForInt("select count(*) from hisihi_member");
+		int count = appJdbcTemplate.queryForInt("select count(*) from hisihi_auth_group_access where group_id=5 or group_id=6");
+		count = count+14800-1;
 		return count;
 	}
 
 	public int getStudentsCount(){
 		int count = appJdbcTemplate.queryForInt("select count(*) from hisihi_auth_group_access where group_id=5");
+		count = count+14000-1;
 		return count;
 	}
 
 	public int getTeachersCount(){
 		int count = appJdbcTemplate.queryForInt("select count(*) from hisihi_auth_group_access where group_id=6");
+		count = count+800;
 		return count;
 	}
 

@@ -55,7 +55,7 @@ public class HController {
 		return "login";
 	}
 
-    @RequestMapping(value="/login", method=RequestMethod.POST)
+    @RequestMapping(value="/login")
     public String loginPost(Model model, HttpServletRequest request){
         String username = request.getParameter("username");
         String password = request.getParameter("password");
