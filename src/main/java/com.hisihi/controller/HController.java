@@ -234,7 +234,7 @@ public class HController {
         String idfa = request.getParameter("idfa");
         String callback = URLDecoder.decode(request.getParameter("callback"));
 
-        int count = adDao.saveAdInfo( appid,  channel,  mac,  idfa,  callback);
+        int count = adDao.saveAdInfo(appid, channel, mac, idfa, callback);
         if(count > 0){
             
             Map map = new HashMap();
@@ -257,12 +257,14 @@ public class HController {
                 List list = adDao.getCallbackByIDFA(idfa);
                 if(list.size() > 0){
                     Map cmap  = (Map) list.get(0);//取id值最小的
+                    int id = Integer.parseInt(cmap.get("id").toString());
                     String callback = cmap.get("callback").toString().trim();
                     HttpResponseWrapper wrapper =  HttpClient.doGet(callback);
                     String result = wrapper.content;
                     Map rmap = gson.fromJson(result, Map.class);
                     if(rmap.get("success").toString().trim().equals("true")){
                         result = result.replace("\"true\"","true");
+                        adDao.updateAdStatus(id);//推送成功更新广告状态
                     }else {
                         result = result.replace("\"false\"","false");
                     }
@@ -280,6 +282,40 @@ public class HController {
                 map.put("message", "callback request exception");
                 return gson.toJson(map);
             }
+    }
+
+    @RequestMapping(value="/recordChannel", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String recordChannel(HttpServletRequest request){
+        try {
+            String channel = request.getParameter("channel");
+            String iemi = request.getParameter("imei");
+            if(!adDao.isIEMIExist(iemi)) {
+                int count = adDao.recordChannel(channel, iemi);
+                if (count > 0) {
+                    Map map = new HashMap();
+                    map.put("success", true);
+                    map.put("message", "Success");
+                    return gson.toJson(map);
+                } else {
+                    Map map = new HashMap();
+                    map.put("success", false);
+                    map.put("message", "record failed");
+                    return gson.toJson(map);
+                }
+            }else {
+                Map map = new HashMap();
+                map.put("success", true);
+                map.put("message", "Success");
+                return gson.toJson(map);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Map map = new HashMap();
+            map.put("success", false);
+            map.put("message", "callback request exception");
+            return gson.toJson(map);
+        }
     }
 
     private String successResponse(Object data){
