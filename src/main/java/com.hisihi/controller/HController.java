@@ -287,6 +287,7 @@ public class HController {
     @RequestMapping(value="/recordChannel", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String recordChannel(HttpServletRequest request){
+        logger.info("app 渠道上报......");
         try {
             String channel = request.getParameter("channel");
             String iemi = request.getParameter("imei");
@@ -296,6 +297,7 @@ public class HController {
                     Map map = new HashMap();
                     map.put("success", true);
                     map.put("message", "Success");
+                    logger.info("app 渠道上报成功");
                     return gson.toJson(map);
                 } else {
                     Map map = new HashMap();
@@ -307,10 +309,11 @@ public class HController {
                 Map map = new HashMap();
                 map.put("success", true);
                 map.put("message", "Success");
+                logger.info("app 已经上报并记录过了");
                 return gson.toJson(map);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("app 渠道上报异常: "+e.getMessage());
             Map map = new HashMap();
             map.put("success", false);
             map.put("message", "callback request exception");
