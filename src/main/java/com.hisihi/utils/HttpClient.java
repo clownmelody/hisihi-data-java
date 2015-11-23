@@ -233,18 +233,12 @@ public class HttpClient {
             return request(url, null, DELETE, authCode);
     }
 
-
     /**
-     * 请求
      *
      * @param url
-     *            URL
      * @param content
-     *            请求正文
      * @param method
-     *            请求方法
      * @param authCode
-     *            权限验证token
      * @return
      * @throws Exception
      */

@@ -2,7 +2,6 @@ package com.hisihi.utils;
 
 import com.google.gson.Gson;
 import com.hisihi.model.ActiveUserModel;
-import com.sun.javafx.binding.StringFormatter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

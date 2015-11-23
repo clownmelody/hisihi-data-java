@@ -1,6 +1,6 @@
 package com.hisihi.utils;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -115,7 +115,7 @@ public class StringUtils {
         return str.replace("<", "&lt;").replace(">", "&gt;");
     }
 
-    /* ������� */
+
     public static String getRequestParams(HttpServletRequest request) {
         StringBuffer paramBuffer = new StringBuffer();
         Enumeration enu = request.getParameterNames();
@@ -134,9 +134,6 @@ public class StringUtils {
 
     /**
      *
-     *
-     * @date 2012-12-17
-     * @desc ������֤�ļ�����֤������url��
      * @param devId
      * @return
      */
@@ -149,12 +146,8 @@ public class StringUtils {
 
     /**
      *
-     *
-     * @date 2012-12-20
-     * @desc ��ȡ�����������߲���
      * @param url
      * @param rootUrl
-     *            true:��������,false:��ȡ����
      * @return
      */
     public static String getRootUrl(String url, boolean rootUrl) {
@@ -233,8 +226,6 @@ public class StringUtils {
             ip = request.getRemoteAddr();
 
         }
-        // ���ʹ��͸������Ļ����õ���x-forwarded-for�����ǣ��ͻ�����ʵ
-        // ip,�����Ķ�̨����ip���磺111.111.111.11,2222.222.22.22
         if (ip != null) {
             ip = ip.split(",")[0];
         }
@@ -277,7 +268,7 @@ public class StringUtils {
     public static String getAuthorizationBase64(String appKey,
                                                 String masterSecret) {
         String encodeKey = appKey + ":" + masterSecret;
-        return String.valueOf(Base64.encode(encodeKey.getBytes()));
+        return String.valueOf(Base64.encodeBase64String(encodeKey.getBytes()));
     }
 
     public static String parseLocaleToString(Locale locale) {
