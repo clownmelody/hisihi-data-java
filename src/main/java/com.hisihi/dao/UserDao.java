@@ -29,4 +29,10 @@ public class UserDao {
 		);
 	}
 
+	public int getChannelCount(String channel){
+		int count = jdbcTemplate.queryForInt("select count(*) from hisihi_data_channel where channel=?",
+				new Object[]{channel});
+		return count;
+	}
+
 }

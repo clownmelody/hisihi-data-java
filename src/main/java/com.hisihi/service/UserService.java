@@ -25,4 +25,8 @@ public class UserService {
 		return false;
 	}
 
+	public int getChannelCount(String channel){
+		return userDao.getChannelCount(channel);
+	}
+
 }

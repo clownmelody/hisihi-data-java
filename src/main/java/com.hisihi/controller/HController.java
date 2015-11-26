@@ -285,17 +285,17 @@ public class HController {
     @RequestMapping(value="/recordChannel", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String recordChannel(HttpServletRequest request){
-        logger.info("app 渠道上报......");
         try {
             String channel = request.getParameter("channel");
             String iemi = request.getParameter("imei");
+            logger.info("app 渠道上报 -- channel: "+channel+" -- imei: "+iemi);
             if(!adDao.isIEMIExist(iemi)) {
                 int count = adDao.recordChannel(channel, iemi);
                 if (count > 0) {
                     Map map = new HashMap();
                     map.put("success", true);
                     map.put("message", "Success");
-                    logger.info("app 渠道上报成功");
+                    logger.info("app 渠道上报 -- channel: "+channel+" -- imei: "+iemi+" --渠道上报成功");
                     return gson.toJson(map);
                 } else {
                     Map map = new HashMap();
@@ -307,7 +307,7 @@ public class HController {
                 Map map = new HashMap();
                 map.put("success", true);
                 map.put("message", "Success");
-                logger.info("app 已经上报并记录过了");
+                logger.info("app 渠道上报 -- channel: "+channel+" -- imei: "+iemi+" --已经上报并记录过了");
                 return gson.toJson(map);
             }
         } catch (Exception e) {
@@ -318,6 +318,24 @@ public class HController {
             return gson.toJson(map);
         }
     }
+
+    @RequestMapping(value="/queryChannelCount", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String queryChannelCount(HttpServletRequest request){
+        String channel = request.getParameter("channel");
+        if(StringUtils.isEmpty(channel)){
+            Map map = new HashMap();
+            map.put("message", "渠道不能为空");
+            return gson.toJson(map);
+        }
+        int count = userService.getChannelCount(channel);
+        Map map = new HashMap();
+        map.put("success", true);
+        map.put("message", "Success");
+        map.put("count", count);
+        return gson.toJson(map);
+    }
+
 
     @RequestMapping(value="/aso_click", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
