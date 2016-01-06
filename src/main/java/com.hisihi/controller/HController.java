@@ -339,7 +339,6 @@ public class HController {
         return gson.toJson(map);
     }
 
-
     @RequestMapping(value="/aso_click", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
     @ResponseBody
     public String aso_click(HttpServletRequest request){
