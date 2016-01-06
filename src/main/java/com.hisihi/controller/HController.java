@@ -288,6 +288,9 @@ public class HController {
         try {
             String channel = request.getParameter("channel");
             String iemi = request.getParameter("imei");
+            if(channel.contains("school")){
+                channel = channel.substring(6, channel.length());
+            }
             logger.info("app 渠道上报 -- channel: "+channel+" -- imei: "+iemi);
             if(!adDao.isIEMIExist(iemi)) {
                 int count = adDao.recordChannel(channel, iemi);
