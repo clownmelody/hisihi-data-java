@@ -3,3 +3,4 @@
 /target
 data.iml
 /src/main/resources/database.properties
+/src/main/webapp/WEB-INF/database.properties
