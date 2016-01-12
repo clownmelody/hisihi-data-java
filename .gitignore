@@ -2,3 +2,4 @@
 /Uploads
 /target
 data.iml
+/src/main/resources/database.properties
