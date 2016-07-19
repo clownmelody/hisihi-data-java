@@ -62,7 +62,7 @@ public class HController {
             return "redirect:/index";
         }
         else {
-            model.addAttribute("error", "user not exist or password is wrong");
+            model.addAttribute("error", "用户不存在或密码错误");
             return "login";
         }
     }
@@ -106,6 +106,16 @@ public class HController {
     public String logout(HttpServletRequest request){
         request.getSession().removeAttribute("username");
         return "login";
+    }
+
+    @RequestMapping(value="/stats", method=RequestMethod.GET)
+    public String stats(HttpServletRequest request){
+        String name = (String) request.getSession().getAttribute("username");
+        if(!StringUtils.isEmpty(name)) {
+            return "stats";
+        } else {
+            return "login";
+        }
     }
 
 	@RequestMapping(value="/register", method=RequestMethod.POST)
@@ -298,7 +308,7 @@ public class HController {
                     Map map = new HashMap();
                     map.put("success", true);
                     map.put("message", "Success");
-                    logger.info("app 渠道上报 -- channel: "+channel+" -- imei: "+iemi+" --渠道上报成功");
+                    logger.info("app 渠道上报 -- channel: " + channel + " -- imei: " + iemi + " --渠道上报成功");
                     return gson.toJson(map);
                 } else {
                     Map map = new HashMap();
@@ -310,11 +320,11 @@ public class HController {
                 Map map = new HashMap();
                 map.put("success", true);
                 map.put("message", "Success");
-                logger.info("app 渠道上报 -- channel: "+channel+" -- imei: "+iemi+" --已经上报并记录过了");
+                logger.info("app 渠道上报 -- channel: " + channel + " -- imei: " + iemi + " --已经上报并记录过了");
                 return gson.toJson(map);
             }
         } catch (Exception e) {
-            logger.info("app 渠道上报异常: "+e.getMessage());
+            logger.info("app 渠道上报异常: " + e.getMessage());
             Map map = new HashMap();
             map.put("success", false);
             map.put("message", "callback request exception");
@@ -332,6 +342,39 @@ public class HController {
             return gson.toJson(map);
         }
         int count = userService.getChannelCount(channel);
+        Map map = new HashMap();
+        map.put("success", true);
+        map.put("message", "Success");
+        map.put("count", count);
+        return gson.toJson(map);
+    }
+
+
+    @RequestMapping(value="/user_post_count", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String user_post_count(HttpServletRequest request){
+        String user_mobile = request.getParameter("user_mobile");
+        String start_date = request.getParameter("start_date");
+        String end_date = request.getParameter("end_date");
+        if(StringUtils.isEmpty(user_mobile)||StringUtils.isEmpty(start_date)||StringUtils.isEmpty(end_date)){
+            Map map = new HashMap();
+            map.put("message", "参数不能为空");
+            return gson.toJson(map);
+        }
+        int postCount = userService.getPostCount(user_mobile, start_date, end_date);
+        int postReplyCount = userService.getPostReplyCount(user_mobile, start_date, end_date);
+        Map map = new HashMap();
+        map.put("success", true);
+        map.put("message", "Success");
+        map.put("postCount", postCount);
+        map.put("postReplyCount", postReplyCount);
+        return gson.toJson(map);
+    }
+
+    @RequestMapping(value="/queryAllChannelCount", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String queryAllChannelCount(HttpServletRequest request){
+        int count = userService.getAllChannelCount();
         Map map = new HashMap();
         map.put("success", true);
         map.put("message", "Success");
@@ -385,12 +428,8 @@ public class HController {
                 String result = wrapper.content;
                 Map rmap = gson.fromJson(result, Map.class);
                 if(rmap.get("message").toString().trim().equals("ok")){
-                    //result = result.replace("\"true\"","true");
                     asoDao.updateAsoStatus(id);//推送成功更新aso状态
                 }
-//                else {
-//                    result = result.replace("\"false\"","false");
-//                }
                 return result;
             }else {
                 Map map = new HashMap();

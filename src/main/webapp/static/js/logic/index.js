@@ -21,7 +21,7 @@ $(document).ready(function(){
     /**
      * 获取app的注册用户数
      */
-    $.ajax({
+    /*$.ajax({
         url:'register_total_count',
         type:'GET',
         dataType:'json',
@@ -31,12 +31,12 @@ $(document).ready(function(){
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert('server exception');
         }
-    });
+    });*/
 
     /**
      * 获取云作业下载数
      */
-    $.ajax({
+    /*$.ajax({
         url:'hiworks_download_total_count',
         type:'GET',
         dataType:'json',
@@ -46,12 +46,12 @@ $(document).ready(function(){
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert('server exception');
         }
-    });
+    });*/
 
     /**
      * 获取云作业浏览数
      */
-    $.ajax({
+    /*$.ajax({
         url:'hiworks_view_count',
         type:'GET',
         dataType:'json',
@@ -61,12 +61,12 @@ $(document).ready(function(){
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert('server exception');
         }
-    });
+    });*/
 
     /**
      * 获取教师和学生的人数
      */
-    $.ajax({
+    /*$.ajax({
         url:'student_teacher_count',
         type:'GET',
         dataType:'json',
@@ -93,12 +93,12 @@ $(document).ready(function(){
             });
             alert('server exception');
         }
-    });
+    });*/
 
     /**
      * 获取每天解决的问题数
      */
-    $.ajax({
+    /*$.ajax({
         url:'questions_resolved_everyday',
         type:'GET',
         dataType:'json',
@@ -109,6 +109,6 @@ $(document).ready(function(){
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert('server exception');
         }
-    });
+    });*/
 
 });

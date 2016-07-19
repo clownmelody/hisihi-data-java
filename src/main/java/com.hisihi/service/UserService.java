@@ -29,4 +29,18 @@ public class UserService {
 		return userDao.getChannelCount(channel);
 	}
 
+	public int getAllChannelCount(){
+		return userDao.getAllChannelCount();
+	}
+
+	public int getPostCount(String mobile, String start_time, String end_time){
+		int count = userDao.getPostCount(mobile, start_time, end_time);
+		return count;
+	}
+
+	public int getPostReplyCount(String mobile, String start_time, String end_time){
+		int count = userDao.getPostReplyCount(mobile, start_time, end_time);
+		return count;
+	}
+
 }
