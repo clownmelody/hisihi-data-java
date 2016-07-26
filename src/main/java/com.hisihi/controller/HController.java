@@ -22,13 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @Controller
@@ -59,6 +58,7 @@ public class HController {
         String password = request.getParameter("password");
         if (userService.isUserCorrect(username, password)){
             request.getSession().setAttribute("username", username);
+            request.setAttribute("menu", "index");
             return "redirect:/index";
         }
         else {
@@ -76,6 +76,8 @@ public class HController {
     public String index(HttpServletRequest request){
         String name = (String) request.getSession().getAttribute("username");
         if(!StringUtils.isEmpty(name)) {
+            request.setAttribute("menu", "index");
+            request.setAttribute("name", name);
             return "index";
         } else {
             return "login";
@@ -86,6 +88,8 @@ public class HController {
     public String retained(HttpServletRequest request){
         String name = (String) request.getSession().getAttribute("username");
         if(!StringUtils.isEmpty(name)) {
+            request.setAttribute("menu", "retained");
+            request.setAttribute("name", name);
             return "retained";
         } else {
             return "login";
@@ -96,6 +100,8 @@ public class HController {
     public String active(HttpServletRequest request){
         String name = (String) request.getSession().getAttribute("username");
         if(!StringUtils.isEmpty(name)) {
+            request.setAttribute("menu", "active");
+            request.setAttribute("name", name);
             return "active";
         } else {
             return "login";
@@ -112,6 +118,8 @@ public class HController {
     public String stats(HttpServletRequest request){
         String name = (String) request.getSession().getAttribute("username");
         if(!StringUtils.isEmpty(name)) {
+            request.setAttribute("menu", "stats");
+            request.setAttribute("name", name);
             return "stats";
         } else {
             return "login";
@@ -137,6 +145,14 @@ public class HController {
 			return "register";
 		}
 	}
+
+    @RequestMapping(value="/auth/denied", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String auth_denied(){
+        Map data = new HashMap();
+        data.put("error_msg", "你没有此权限");
+        return this.successResponse(data);
+    }
 
 	@RequestMapping(value="/app_base_data", method=RequestMethod.GET, produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
@@ -354,20 +370,32 @@ public class HController {
     @ResponseBody
     public String user_post_count(HttpServletRequest request){
         String user_mobile = request.getParameter("user_mobile");
+        int user_count = Integer.parseInt(request.getParameter("user_count"));
         String start_date = request.getParameter("start_date");
         String end_date = request.getParameter("end_date");
-        if(StringUtils.isEmpty(user_mobile)||StringUtils.isEmpty(start_date)||StringUtils.isEmpty(end_date)){
+        if(StringUtils.isEmpty(user_mobile)||user_count==0||
+                StringUtils.isEmpty(start_date)||StringUtils.isEmpty(end_date)){
             Map map = new HashMap();
             map.put("message", "参数不能为空");
             return gson.toJson(map);
         }
-        int postCount = userService.getPostCount(user_mobile, start_date, end_date);
-        int postReplyCount = userService.getPostReplyCount(user_mobile, start_date, end_date);
+        List<Map> dataList = new ArrayList<Map>();
+        for(int i=0; i<user_count; i++){
+            long mobile_num = Long.parseLong(user_mobile);
+            mobile_num = mobile_num + i;
+            String mobile= String.valueOf(mobile_num);
+            int postCount = userService.getPostCount(mobile, start_date, end_date);
+            int postReplyCount = userService.getPostReplyCount(mobile, start_date, end_date);
+            Map obj = new HashMap();
+            obj.put("mobile", mobile);
+            obj.put("postCount", postCount);
+            obj.put("postReplyCount", postReplyCount);
+            dataList.add(obj);
+        }
         Map map = new HashMap();
         map.put("success", true);
         map.put("message", "Success");
-        map.put("postCount", postCount);
-        map.put("postReplyCount", postReplyCount);
+        map.put("data", dataList);
         return gson.toJson(map);
     }
 

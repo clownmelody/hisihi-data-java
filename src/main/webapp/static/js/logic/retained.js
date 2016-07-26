@@ -9,7 +9,6 @@ function updateUserRetainedData(start_date, end_date, type, device){
         data: {'start_date': start_date, 'end_date': end_date, 'type': type, 'device': device},
         dataType:'json',
         success:function(data) {
-            console.log(data.data);
             var data = JSON.parse(data.data);
             for(var i=0; i<data.length; i++){
                 var date = data[i].install_period;

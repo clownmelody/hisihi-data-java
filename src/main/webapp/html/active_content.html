@@ -1,0 +1,69 @@
+<div id="page-wrapper">
+
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li>
+                        <i class="fa fa-home"></i>  <a href="index.html">首页</a>
+                    </li>
+                    <li class="active">
+                        <i class="fa fa-heart"></i>  <a href="active.html">活跃用户</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="" class="form-inline form-list"  role="form">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="dtp_input2" class=" control-label">选择日期:</label>
+                            <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input id="start_date" style="cursor: pointer;" class="form-control" size="16" type="text" value="2015-08-08" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dtp_input2" class=" control-label">~</label>
+                            <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input id="end_date" style="cursor: pointer;" class="form-control" size="16" type="text" value="" readonly>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 活跃用户
+                            <ul class="list-inline list-link">
+                                <li><a href="javascript:void(0);" class="btn active">日</a></li>
+                                <li><a href="javascript:void(0);" class="btn">周</a></li>
+                                <li><a href="javascript:void(0);" class="btn">月</a></li>
+                                <li><a onclick="refreshUserActiveData();"><i class="fa fa-refresh"></i></a></li>
+                            </ul>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="active-user-area-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- /#page-wrapper -->

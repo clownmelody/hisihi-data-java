@@ -44,7 +44,12 @@ public class UserDao {
 
 	public int getPostCount(String mobile, String start_time, String end_time){
 		String sql = "SELECT id FROM hisihi_ucenter_member WHERE mobile = '"+mobile+"'";
-		int uid = appJdbcTemplate.queryForObject(sql, java.lang.Integer.class);
+		int uid;
+		try{
+			uid = appJdbcTemplate.queryForObject(sql, java.lang.Integer.class);
+		} catch (Exception e){
+			return 0;
+		}
 		sql = "select count(*) from hisihi_forum_post " +
 				"where uid="+uid+" and create_time between unix_timestamp('"+start_time+"')" +
 				" and unix_timestamp('"+end_time+"')";
@@ -54,7 +59,12 @@ public class UserDao {
 
 	public int getPostReplyCount(String mobile, String start_time, String end_time){
 		String sql = "SELECT id FROM hisihi_ucenter_member WHERE mobile = '"+mobile+"'";
-		int uid = appJdbcTemplate.queryForObject(sql, java.lang.Integer.class);
+		int uid;
+		try{
+			uid = appJdbcTemplate.queryForObject(sql, java.lang.Integer.class);
+		} catch (Exception e){
+			return 0;
+		}
 		sql = "select count(*) from hisihi_forum_post_reply " +
 				"where uid="+uid+" and create_time between unix_timestamp('"+start_time+"')" +
 				" and unix_timestamp('"+end_time+"')";

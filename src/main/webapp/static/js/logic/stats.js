@@ -7,6 +7,7 @@
 
 function queryUserPostCount(){
     var user_mobile = $('#user_account').val();
+    var user_count = $('#user_count').val();
     var start_date = $('#start_date').val();
     var end_date = $('#end_date').val();
     if(user_mobile==''||start_date==''||end_date==''){
@@ -22,11 +23,21 @@ function queryUserPostCount(){
     $.ajax({
         url:'user_post_count',
         type:'GET',
-        data: {'user_mobile': user_mobile, 'start_date': start_date, 'end_date': end_date},
+        data: {'user_mobile': user_mobile, 'user_count': user_count,
+            'start_date': start_date, 'end_date': end_date},
         dataType:'json',
         success:function(data) {
-            $('#user_post_count').html('<h4 style="color:red;">'+data.postCount+'</h4>');
-            $('#user_post_reply_count').html('<h4 style="color:red;">'+data.postReplyCount+'</h4>');
+            var postHtmlContent = '';
+            var replyHtmlContent = '';
+            for(var i=0; i<data.data.length; i++){
+                var mobile = data.data[i].mobile;
+                var postCount = data.data[i].postCount;
+                var postReplyCount = data.data[i].postReplyCount;
+                postHtmlContent += '<span style="color:red;">'+mobile+' ------ '+postCount+'</span><br/>';
+                replyHtmlContent += '<span style="color:red;">'+mobile+' ------ '+postReplyCount+'</span><br/>';
+            }
+            $('#user_post_count').html(postHtmlContent);
+            $('#user_post_reply_count').html(replyHtmlContent);
             $('#query_button').removeAttr('disabled').text('查询');
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
